@@ -168,5 +168,14 @@
         }
       ]
     }
+  ],
+  "recommendedApps": [
+    {
+      "id": "youngsimi",
+      "title": "영시미",
+      "description": "CGV 좌석 시야 지도",
+      "url": "https://cfz566stzm-png.github.io/-cgv-chungnam-seat-view/",
+      "image": "assets/recommended/youngsimi.webp"
+    }
   ]
 }
