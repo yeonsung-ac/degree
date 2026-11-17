@@ -4,7 +4,7 @@
       "id": "consumer-behavior",
       "name": "소비자행동론",
       "year": "2026",
-      "subtitle": "나의 관심에서 시작한 스무 개의 이야기",
+      "subtitle": "나의 관심에서 시작한, 각자의 이야기",
       "members": [
         {
           "id": "cb-e4919c2f4b2a",
@@ -95,25 +95,9 @@
           "title": "홈페이지 준비 중"
         },
         {
-          "id": "cb-4df8e0e40493",
-          "name": "문지현",
-          "order": 12,
-          "url": "",
-          "image": "",
-          "title": "홈페이지 준비 중"
-        },
-        {
-          "id": "cb-aebc056576f6",
-          "name": "김우진",
-          "order": 13,
-          "url": "",
-          "image": "",
-          "title": "홈페이지 준비 중"
-        },
-        {
           "id": "cb-97cbba1097ed",
           "name": "오다은",
-          "order": 14,
+          "order": 12,
           "url": "https://a01088924154-art.github.io/",
           "image": "assets/consumer/a01088924154-art.webp",
           "title": "오다은의 홈페이지"
@@ -121,7 +105,7 @@
         {
           "id": "cb-66786cff28f3",
           "name": "정진호",
-          "order": 15,
+          "order": 13,
           "url": "https://jmsk300.github.io/",
           "image": "assets/consumer/jmsk300.webp",
           "title": "정진호의 물가일기"
@@ -129,7 +113,7 @@
         {
           "id": "cb-b8fb1068113f",
           "name": "정예원",
-          "order": 16,
+          "order": 14,
           "url": "",
           "image": "",
           "title": "홈페이지 준비 중"
@@ -137,7 +121,7 @@
         {
           "id": "cb-23f3bdff3eb3",
           "name": "정은서",
-          "order": 17,
+          "order": 15,
           "url": "",
           "image": "",
           "title": "홈페이지 준비 중"
@@ -145,7 +129,7 @@
         {
           "id": "cb-b33ebcec30be",
           "name": "김진서",
-          "order": 18,
+          "order": 16,
           "url": "https://kjs2006.github.io/",
           "image": "assets/consumer/kjs2006.webp",
           "title": "김진서의 게임 아카이브"
@@ -153,7 +137,7 @@
         {
           "id": "cb-8599d3f2bf9d",
           "name": "이태인",
-          "order": 19,
+          "order": 17,
           "url": "https://lee-tae-in.github.io/",
           "image": "assets/consumer/lee-tae-in.webp",
           "title": "이태인 포트폴리오"
@@ -161,10 +145,24 @@
         {
           "id": "cb-d245f6ba463b",
           "name": "안종선",
-          "order": 20,
+          "order": 18,
           "url": "",
           "image": "",
           "title": "홈페이지 준비 중"
+        }
+      ],
+      "professorVideoSlots": [
+        {
+          "id": "cb-professor-case-01",
+          "name": "부트캠프 사례 01",
+          "order": 1,
+          "instructorOnly": true
+        },
+        {
+          "id": "cb-professor-case-02",
+          "name": "부트캠프 사례 02",
+          "order": 2,
+          "instructorOnly": true
         }
       ]
     }
