@@ -1,0 +1,47 @@
+    // DEGREE exhibition: private edit codes, owner-bound thumbnail uploads.
+    function degreeProfessor() {
+      return request.auth != null && request.auth.token.email_verified == true
+        && request.auth.token.email == 'dasahee@yeonsung.ac.kr';
+    }
+    match /degreeKeys/{keyHash} {
+      allow read: if degreeProfessor();
+      allow create, update: if degreeProfessor()
+        && keyHash.matches('^[a-f0-9]{64}$')
+        && request.resource.data.memberId is string
+        && request.resource.data.classId is string
+        && request.resource.data.code is string;
+      allow delete: if degreeProfessor();
+    }
+    match /degreeSessions/{ownerId} {
+      allow get: if request.auth != null && (ownerId == request.auth.uid || degreeProfessor());
+      allow list: if degreeProfessor();
+      allow create, update: if request.auth != null && ownerId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid','memberId','classId','codeHash','updatedAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.codeHash is string
+        && request.resource.data.codeHash.matches('^[a-f0-9]{64}$')
+        && exists(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash))
+        && get(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash)).data.memberId == request.resource.data.memberId
+        && get(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash)).data.classId == request.resource.data.classId
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if request.auth != null && (ownerId == request.auth.uid || degreeProfessor());
+    }
+    match /degreeThumbnails/{memberId} {
+      allow read: if true;
+      allow create, update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['memberId','classId','image','updatedBy','updatedAt'])
+        && request.resource.data.memberId == memberId
+        && request.resource.data.classId is string
+        && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.image is string
+        && request.resource.data.image.size() <= 280000
+        && request.resource.data.image.matches('^data:image/jpeg;base64,[A-Za-z0-9+/=]+$')
+        && (degreeProfessor() || (
+          exists(/databases/$(database)/documents/degreeSessions/$(request.auth.uid))
+          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.memberId == memberId
+          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.classId == request.resource.data.classId
+          && exists(/databases/$(database)/documents/degreeKeys/$(get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.codeHash))
+        ));
+      allow delete: if degreeProfessor();
+    }

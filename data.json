@@ -1,0 +1,172 @@
+{
+  "classes": [
+    {
+      "id": "consumer-behavior",
+      "name": "소비자행동론",
+      "year": "2026",
+      "subtitle": "나의 관심에서 시작한 스무 개의 이야기",
+      "members": [
+        {
+          "id": "cb-e4919c2f4b2a",
+          "name": "편진호",
+          "order": 1,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-4849c8119d1f",
+          "name": "박지훈",
+          "order": 2,
+          "url": "https://pjh031210.github.io/",
+          "image": "assets/consumer/pjh031210.webp",
+          "title": "박지훈 홈페이지"
+        },
+        {
+          "id": "cb-24efd4a1bde3",
+          "name": "김수진",
+          "order": 3,
+          "url": "https://kimsj20030212-star.github.io/",
+          "image": "assets/consumer/kimsj20030212-star.webp",
+          "title": "김수진 | 새로운 시도로 가치를 만드는 대학생"
+        },
+        {
+          "id": "cb-fdc942786fcf",
+          "name": "김현재",
+          "order": 4,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-ff12a84a2dfd",
+          "name": "신희건",
+          "order": 5,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-faf5b1ee9470",
+          "name": "홍지호",
+          "order": 6,
+          "url": "https://ghdwlgh3157-star.github.io/",
+          "image": "assets/consumer/ghdwlgh3157-star.webp",
+          "title": "game.feed — 게임과 음악을 즐기는 공간"
+        },
+        {
+          "id": "cb-0f914514edaa",
+          "name": "송태혁",
+          "order": 7,
+          "url": "https://thdxogur.github.io/",
+          "image": "assets/consumer/thdxogur.webp",
+          "title": "송태혁의 운동 라이프 | 운동 소개 & 기록"
+        },
+        {
+          "id": "cb-0920886070db",
+          "name": "홍석범",
+          "order": 8,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-09b4c83cc5e3",
+          "name": "이정민",
+          "order": 9,
+          "url": "https://jungmin060219-max.github.io/",
+          "image": "assets/consumer/jungmin060219-max.webp",
+          "title": "이정민 - 프로필 & 게임 포트폴리오"
+        },
+        {
+          "id": "cb-95483514b47d",
+          "name": "천현범",
+          "order": 10,
+          "url": "https://chunzxc12345-lang.github.io/",
+          "image": "assets/consumer/chunzxc12345-lang.webp",
+          "title": "여행, 그 설레는 시작"
+        },
+        {
+          "id": "cb-bebf11d05897",
+          "name": "김민성",
+          "order": 11,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-4df8e0e40493",
+          "name": "문지현",
+          "order": 12,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-aebc056576f6",
+          "name": "김우진",
+          "order": 13,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-97cbba1097ed",
+          "name": "오다은",
+          "order": 14,
+          "url": "https://a01088924154-art.github.io/",
+          "image": "assets/consumer/a01088924154-art.webp",
+          "title": "오다은의 홈페이지"
+        },
+        {
+          "id": "cb-66786cff28f3",
+          "name": "정진호",
+          "order": 15,
+          "url": "https://jmsk300.github.io/",
+          "image": "assets/consumer/jmsk300.webp",
+          "title": "정진호의 물가일기"
+        },
+        {
+          "id": "cb-b8fb1068113f",
+          "name": "정예원",
+          "order": 16,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-23f3bdff3eb3",
+          "name": "정은서",
+          "order": 17,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "cb-b33ebcec30be",
+          "name": "김진서",
+          "order": 18,
+          "url": "https://kjs2006.github.io/",
+          "image": "assets/consumer/kjs2006.webp",
+          "title": "김진서의 게임 아카이브"
+        },
+        {
+          "id": "cb-8599d3f2bf9d",
+          "name": "이태인",
+          "order": 19,
+          "url": "https://lee-tae-in.github.io/",
+          "image": "assets/consumer/lee-tae-in.webp",
+          "title": "이태인 포트폴리오"
+        },
+        {
+          "id": "cb-d245f6ba463b",
+          "name": "안종선",
+          "order": 20,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        }
+      ]
+    }
+  ]
+}
