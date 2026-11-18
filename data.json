@@ -164,6 +164,150 @@
           "order": 2,
           "instructorOnly": true
         }
+      ],
+      "mark": "CB"
+    },
+    {
+      "id": "advertising",
+      "name": "광고학개론",
+      "mark": "AD",
+      "year": "2026",
+      "subtitle": "아이디어를 표현하고, 나만의 시선을 전하다",
+      "members": [
+        {
+          "id": "ad-2f98dbbb23aa",
+          "name": "드언 쑤언 쭝",
+          "order": 1,
+          "url": "https://duongxuantrung0405-ux.github.io/",
+          "image": "assets/advertising/duongxuantrung0405-ux.webp",
+          "title": "두언 쑤앙 쭝 — 개인 홈페이지"
+        },
+        {
+          "id": "ad-b2e8063dbb52",
+          "name": "팜 짠 느 꿘",
+          "order": 2,
+          "url": "https://nhuquyenprc-bit.github.io/",
+          "image": "assets/advertising/nhuquyenprc-bit.webp",
+          "title": "Quyen — Digital Projects"
+        },
+        {
+          "id": "ad-38ee8f34ed54",
+          "name": "부이 티 투 짱",
+          "order": 3,
+          "url": "https://buitrang29012005-debug.github.io/",
+          "image": "assets/advertising/buitrang29012005-debug.webp",
+          "title": "브이티투짱 — 개인 홈페이지"
+        },
+        {
+          "id": "ad-fa6298100a2d",
+          "name": "토 티 짱",
+          "order": 4,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "ad-019fcbe5861e",
+          "name": "레 비엣 탕",
+          "order": 5,
+          "url": "https://levietthang14092005.github.io/",
+          "image": "assets/advertising/levietthang14092005.webp",
+          "title": "Lê Việt Thắng | Developer Portfolio & Game Arcade"
+        },
+        {
+          "id": "ad-26fe1a62d382",
+          "name": "응웬 티 반 아잉",
+          "order": 6,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "ad-9bdab3fb9051",
+          "name": "부 반 호안",
+          "order": 7,
+          "url": "https://vuvanhoan2819-glitch.github.io/",
+          "image": "assets/advertising/vuvanhoan2819-glitch.webp",
+          "title": "HOANHOAN — Play · Listen · Discover"
+        },
+        {
+          "id": "ad-c74fa9fffebe",
+          "name": "판 반 홍",
+          "order": 8,
+          "url": "https://phanvanhung01092005-beep.github.io/",
+          "image": "assets/advertising/phanvanhung01092005-beep.webp",
+          "title": "판 반 홍의 홈페이지"
+        },
+        {
+          "id": "ad-35292183200d",
+          "name": "응웬 티 이엔",
+          "order": 9,
+          "url": "https://nguyenthiyen04082005-maker.github.io/",
+          "image": "assets/advertising/nguyenthiyen04082005-maker.webp",
+          "title": "응웬 티 이엔 | 개인 홈페이지"
+        },
+        {
+          "id": "ad-ab21a93f81f0",
+          "name": "풍 꽝 미잉",
+          "order": 10,
+          "url": "https://phungquangminh343-bot.github.io/",
+          "image": "assets/advertising/phungquangminh343-bot.webp",
+          "title": "나의 서울 여행 & 맛집 기록"
+        },
+        {
+          "id": "ad-55ddb2708fc4",
+          "name": "응웬 티 펑 응우엣",
+          "order": 11,
+          "url": "https://thi2762k-afk.github.io/",
+          "image": "assets/advertising/thi2762k-afk.webp",
+          "title": "윤진이의 미니게임 & 한국 여행 가이드"
+        },
+        {
+          "id": "ad-3e91d13a10a5",
+          "name": "황 응억 리잉",
+          "order": 12,
+          "url": "https://hnl160509-commits.github.io/",
+          "image": "assets/advertising/hnl160509-commits.webp",
+          "title": "My Personal Journal | 베트남 하노이 & 영화 컬렉션"
+        },
+        {
+          "id": "ad-90947ff6e698",
+          "name": "응웬 티 카잉 응억",
+          "order": 13,
+          "url": "https://nguyenngoc281mm-a11y.github.io/",
+          "image": "assets/advertising/nguyenngoc281mm-a11y.webp",
+          "title": "PLAYGROUND — Discover Your Next Favorite"
+        },
+        {
+          "id": "ad-cf40c1d68998",
+          "name": "팜 티 홍 아잉",
+          "order": 14,
+          "url": "",
+          "image": "",
+          "title": "홈페이지 준비 중"
+        },
+        {
+          "id": "ad-2fb24b4f2341",
+          "name": "쩐 티 하 응이아",
+          "order": 15,
+          "url": "https://hanghiaa205-create.github.io/",
+          "image": "assets/advertising/hanghiaa205-create.webp",
+          "title": "응이아의 홈페이지"
+        }
+      ],
+      "professorVideoSlots": [
+        {
+          "id": "ad-professor-case-01",
+          "name": "부트캠프 사례 01",
+          "order": 1,
+          "instructorOnly": true
+        },
+        {
+          "id": "ad-professor-case-02",
+          "name": "부트캠프 사례 02",
+          "order": 2,
+          "instructorOnly": true
+        }
       ]
     }
   ],

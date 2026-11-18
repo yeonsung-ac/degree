@@ -7,7 +7,7 @@ $('#gate-form').addEventListener('submit',e=>{e.preventDefault();if($('#gate-pas
 $('#lock').onclick=()=>{sessionStorage.removeItem('degreeEntered');$('#exhibition').hidden=true;$('#gate').hidden=false;$('#gate-pass').focus();};
 function render(){
  $('#classes').innerHTML=data.classes.map(c=>`<a class="class-tile" href="#${esc(c.id)}" aria-current="${c.id===active.id}"><div><strong>${esc(c.name)}</strong><small>${esc(c.year)} · ${c.members.length} STUDENTS</small></div><span aria-hidden="true">↗</span></a>`).join('');
- $('#year').textContent=active.year;$('#class-title').textContent=active.name;$('#class-subtitle').textContent=active.subtitle;
+ $('#year').textContent=active.year;$('#class-mark').textContent=active.mark||'CB';$('#class-title').textContent=active.name;$('#class-subtitle').textContent=active.subtitle;
  $('#count').textContent=`${active.members.length}명의 기록 · 홈페이지 ${active.members.filter(m=>m.url).length}개`;
  renderCards();watchEdits();window.dispatchEvent(new Event('degree:class'));
 }
@@ -34,4 +34,4 @@ if(sessionStorage.getItem('degreeEntered')==='1')unlock();
 
 $('#admin-import').onchange=async()=>{const file=$('#admin-import').files[0];if(!file)return;try{const c=await connect();if(!professor(c.auth.currentUser))throw Error('교수 로그인 후 사용할 수 있습니다.');const rows=JSON.parse(await file.text());if(!Array.isArray(rows)||rows.length>100)throw Error('수정코드 파일 형식이 올바르지 않습니다.');const batch=c.F.writeBatch(c.db);for(const row of rows){if(!data.classes.some(cl=>cl.id===row.classId&&cl.members.some(m=>m.id===row.memberId&&m.name===row.name)))throw Error('전시 명단과 일치하지 않습니다.');if(await hash(row.memberId+':'+row.code)!==row.id)throw Error('수정코드 검증에 실패했습니다.');const ref=c.F.doc(c.db,'degreeKeys',row.id);const old=await c.F.getDoc(ref);if(!old.exists())batch.set(ref,{memberId:row.memberId,classId:row.classId,name:row.name,sid:row.sid,code:row.code});}await batch.commit();$('#admin-import-status').textContent=rows.length+'명 수정코드 등록 완료';$('#admin-login').click();}catch(e){$('#admin-import-status').textContent=e.message||'등록에 실패했습니다.';}};
 
-import('./video.js?v=20261118-6').then(module=>module.mountVideoGallery({connect,hash,professor,currentClass:()=>active})).catch(()=>console.warn('영상 전시 연결을 확인해 주세요.'));
+import('./video.js?v=20261118-7').then(module=>module.mountVideoGallery({connect,hash,professor,currentClass:()=>active})).catch(()=>console.warn('영상 전시 연결을 확인해 주세요.'));
