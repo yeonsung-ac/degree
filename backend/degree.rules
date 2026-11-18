@@ -29,11 +29,15 @@
     match /degreeThumbnails/{memberId} {
       allow read: if true;
       allow create, update: if request.auth != null
-        && request.resource.data.keys().hasOnly(['memberId','classId','image','updatedBy','updatedAt'])
+        && request.resource.data.keys().hasOnly(['memberId','classId','image','updatedBy','createdAt','updatedAt'])
         && request.resource.data.memberId == memberId
         && request.resource.data.classId is string
         && request.resource.data.updatedBy == request.auth.uid
         && request.resource.data.updatedAt == request.time
+        && request.resource.data.createdAt is timestamp
+        && (exists(/databases/$(database)/documents/degreeThumbnails/$(memberId))
+          ? request.resource.data.createdAt == resource.data.get('createdAt', resource.data.updatedAt)
+          : request.resource.data.createdAt == request.time)
         && request.resource.data.image is string
         && request.resource.data.image.size() <= 280000
         && request.resource.data.image.matches('^data:image/jpeg;base64,[A-Za-z0-9+/=]+$')
@@ -50,11 +54,15 @@
     match /degreeVideos/{memberId} {
       allow read: if true;
       allow create, update: if request.auth != null
-        && request.resource.data.keys().hasOnly(['memberId','classId','youtubeId','image','updatedBy','updatedAt'])
+        && request.resource.data.keys().hasOnly(['memberId','classId','youtubeId','image','updatedBy','createdAt','updatedAt'])
         && request.resource.data.memberId == memberId
         && request.resource.data.classId is string
         && request.resource.data.updatedBy == request.auth.uid
         && request.resource.data.updatedAt == request.time
+        && request.resource.data.createdAt is timestamp
+        && (exists(/databases/$(database)/documents/degreeVideos/$(memberId))
+          ? request.resource.data.createdAt == resource.data.get('createdAt', resource.data.updatedAt)
+          : request.resource.data.createdAt == request.time)
         && request.resource.data.youtubeId is string
         && request.resource.data.youtubeId.matches('^[A-Za-z0-9_-]{11}$')
         && request.resource.data.image is string

@@ -8,3 +8,5 @@
 .recommended-section{margin-top:55px;padding-top:4px;border-top:1px solid var(--ink)}
 
 .professor-video-title{font-size:18px;margin:40px 0 8px;padding-top:28px;border-top:1px solid var(--line)}
+
+.upload-times{display:flex;flex-direction:column;gap:5px;margin:12px 0 14px;line-height:1.6}.upload-times small{font-size:10px;color:var(--muted)}.upload-times .modified{color:#a45a32;font-weight:600}.upload-times time{font-variant-numeric:tabular-nums;letter-spacing:0}
