@@ -1,84 +1,25 @@
-    // DEGREE exhibition: private edit codes, owner-bound thumbnail uploads.
-    function degreeProfessor() {
-      return request.auth != null && request.auth.token.email_verified == true
-        && request.auth.token.email == 'dasahee@yeonsung.ac.kr';
-    }
-    match /degreeKeys/{keyHash} {
-      allow read: if degreeProfessor();
-      allow create, update: if degreeProfessor()
-        && keyHash.matches('^[a-f0-9]{64}$')
-        && request.resource.data.memberId is string
-        && request.resource.data.classId is string
-        && request.resource.data.code is string;
-      allow delete: if degreeProfessor();
-    }
-    match /degreeSessions/{ownerId} {
-      allow get: if request.auth != null && (ownerId == request.auth.uid || degreeProfessor());
-      allow list: if degreeProfessor();
-      allow create, update: if request.auth != null && ownerId == request.auth.uid
-        && request.resource.data.keys().hasOnly(['uid','memberId','classId','codeHash','updatedAt'])
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.codeHash is string
-        && request.resource.data.codeHash.matches('^[a-f0-9]{64}$')
-        && exists(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash))
-        && get(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash)).data.memberId == request.resource.data.memberId
-        && get(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash)).data.classId == request.resource.data.classId
-        && request.resource.data.updatedAt == request.time;
-      allow delete: if request.auth != null && (ownerId == request.auth.uid || degreeProfessor());
-    }
-    match /degreeThumbnails/{memberId} {
-      allow read: if true;
-      allow create, update: if request.auth != null
-        && request.resource.data.keys().hasOnly(['memberId','classId','image','updatedBy','createdAt','updatedAt'])
-        && request.resource.data.memberId == memberId
-        && request.resource.data.classId is string
-        && request.resource.data.updatedBy == request.auth.uid
-        && request.resource.data.updatedAt == request.time
-        && request.resource.data.createdAt is timestamp
-        && (exists(/databases/$(database)/documents/degreeThumbnails/$(memberId))
-          ? request.resource.data.createdAt == resource.data.get('createdAt', resource.data.updatedAt)
-          : request.resource.data.createdAt == request.time)
-        && request.resource.data.image is string
-        && request.resource.data.image.size() <= 280000
-        && request.resource.data.image.matches('^data:image/jpeg;base64,[A-Za-z0-9+/=]+$')
-        && (degreeProfessor() || (
-          exists(/databases/$(database)/documents/degreeSessions/$(request.auth.uid))
-          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.memberId == memberId
-          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.classId == request.resource.data.classId
-          && exists(/databases/$(database)/documents/degreeKeys/$(get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.codeHash))
-        ));
-      allow delete: if degreeProfessor();
+// Add within the existing Firestore documents match; do not replace the whole project rules.
+
+function degreeViewer() {
+      return degreeProfessor() || (request.auth != null
+        && request.auth.token.firebase.sign_in_provider == 'google.com'
+        && exists(/databases/$(database)/documents/degreeUserAccess/$(request.auth.uid))
+        && get(/databases/$(database)/documents/degreeUserAccess/$(request.auth.uid)).data.memberships is list
+        && get(/databases/$(database)/documents/degreeUserAccess/$(request.auth.uid)).data.memberships.size() > 0);
     }
 
-    // Student video slots use the same owner-bound edit session as thumbnails.
-    match /degreeVideos/{memberId} {
-      allow read: if true;
-      allow create, update: if request.auth != null
-        && request.resource.data.keys().hasOnly(['memberId','classId','youtubeId','image','updatedBy','createdAt','updatedAt'])
-        && request.resource.data.memberId == memberId
-        && request.resource.data.classId is string
-        && request.resource.data.updatedBy == request.auth.uid
-        && request.resource.data.updatedAt == request.time
-        && request.resource.data.createdAt is timestamp
-        && (exists(/databases/$(database)/documents/degreeVideos/$(memberId))
-          ? request.resource.data.createdAt == resource.data.get('createdAt', resource.data.updatedAt)
-          : request.resource.data.createdAt == request.time)
-        && request.resource.data.youtubeId is string
-        && request.resource.data.youtubeId.matches('^[A-Za-z0-9_-]{11}$')
-        && request.resource.data.image is string
-        && request.resource.data.image.size() <= 280000
-        && request.resource.data.image.matches('^data:image/jpeg;base64,[A-Za-z0-9+/=]+$')
-        && (degreeProfessor() || (
-          exists(/databases/$(database)/documents/degreeSessions/$(request.auth.uid))
-          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.memberId == memberId
-          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.classId == request.resource.data.classId
-          && exists(/databases/$(database)/documents/degreeKeys/$(get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.codeHash))
-        ));
-      allow delete: if degreeProfessor();
+function degreeActorRole() {
+      return degreeProfessor() ? 'professor' :
+        (request.auth.token.firebase.sign_in_provider == 'google.com' ? 'student' : 'code');
     }
 
-    // Google-account requests are private until the professor approves a roster match.
-    match /degreeJoinRequests/{requestId} {
+function degreeActorName() {
+      return degreeProfessor() ? '이현구(지도교수)' :
+        get(/databases/$(database)/documents/degreeKeys/$(get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.codeHash)).data.name
+        + (request.auth.token.firebase.sign_in_provider == 'google.com' ? '' : ' (수정코드 인증)');
+    }
+
+match /degreeJoinRequests/{requestId} {
       allow get: if request.auth != null
         && (degreeProfessor() || requestId.matches('^' + request.auth.uid + '_[a-z0-9-]+$'));
       allow list: if request.auth != null
@@ -104,8 +45,107 @@
       );
       allow delete: if degreeProfessor();
     }
-    match /degreeUserAccess/{ownerId} {
+
+match /degreeUserAccess/{ownerId} {
       allow get: if request.auth != null && (ownerId == request.auth.uid || degreeProfessor());
       allow list: if degreeProfessor();
       allow create, update, delete: if degreeProfessor();
+    }
+
+match /degreeVideos/{memberId} {
+      allow read: if degreeViewer();
+      allow create, update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['memberId','classId','youtubeId','image','updatedBy','createdAt','createdBy','createdByName','createdByRole','updatedByName','updatedByRole','updatedAt'])
+        && request.resource.data.memberId == memberId
+        && request.resource.data.classId is string
+        && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.updatedByName == degreeActorName()
+        && request.resource.data.updatedByRole == degreeActorRole()
+        && (exists(/databases/$(database)/documents/degreeVideos/$(memberId))
+          ? (request.resource.data.createdBy == resource.data.get('createdBy', resource.data.updatedBy)
+             && request.resource.data.createdByName == resource.data.get('createdByName', '기존 사용자(미기록)')
+             && request.resource.data.createdByRole == resource.data.get('createdByRole', 'unknown'))
+          : (request.resource.data.createdBy == request.auth.uid
+             && request.resource.data.createdByName == degreeActorName()
+             && request.resource.data.createdByRole == degreeActorRole()))
+        && request.resource.data.createdAt is timestamp
+        && (exists(/databases/$(database)/documents/degreeVideos/$(memberId))
+          ? request.resource.data.createdAt == resource.data.get('createdAt', resource.data.updatedAt)
+          : request.resource.data.createdAt == request.time)
+        && request.resource.data.youtubeId is string
+        && request.resource.data.youtubeId.matches('^[A-Za-z0-9_-]{11}$')
+        && request.resource.data.image is string
+        && request.resource.data.image.size() <= 280000
+        && request.resource.data.image.matches('^data:image/jpeg;base64,[A-Za-z0-9+/=]+$')
+        && (degreeProfessor() || (
+          exists(/databases/$(database)/documents/degreeSessions/$(request.auth.uid))
+          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.memberId == memberId
+          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.classId == request.resource.data.classId
+          && exists(/databases/$(database)/documents/degreeKeys/$(get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.codeHash))
+        ));
+      allow delete: if degreeProfessor();
+    }
+
+function degreeProfessor() {
+      return request.auth != null && request.auth.token.email_verified == true
+        && request.auth.token.email == 'dasahee@yeonsung.ac.kr';
+    }
+
+match /degreeKeys/{keyHash} {
+      allow read: if degreeProfessor();
+      allow create, update: if degreeProfessor()
+        && keyHash.matches('^[a-f0-9]{64}$')
+        && request.resource.data.memberId is string
+        && request.resource.data.classId is string
+        && request.resource.data.code is string;
+      allow delete: if degreeProfessor();
+    }
+
+match /degreeSessions/{ownerId} {
+      allow get: if request.auth != null && (ownerId == request.auth.uid || degreeProfessor());
+      allow list: if degreeProfessor();
+      allow create, update: if request.auth != null && ownerId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid','memberId','classId','codeHash','updatedAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.codeHash is string
+        && request.resource.data.codeHash.matches('^[a-f0-9]{64}$')
+        && exists(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash))
+        && get(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash)).data.memberId == request.resource.data.memberId
+        && get(/databases/$(database)/documents/degreeKeys/$(request.resource.data.codeHash)).data.classId == request.resource.data.classId
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if request.auth != null && (ownerId == request.auth.uid || degreeProfessor());
+    }
+
+match /degreeThumbnails/{memberId} {
+      allow read: if degreeViewer();
+      allow create, update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['memberId','classId','image','updatedBy','createdAt','createdBy','createdByName','createdByRole','updatedByName','updatedByRole','updatedAt'])
+        && request.resource.data.memberId == memberId
+        && request.resource.data.classId is string
+        && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.updatedByName == degreeActorName()
+        && request.resource.data.updatedByRole == degreeActorRole()
+        && (exists(/databases/$(database)/documents/degreeThumbnails/$(memberId))
+          ? (request.resource.data.createdBy == resource.data.get('createdBy', resource.data.updatedBy)
+             && request.resource.data.createdByName == resource.data.get('createdByName', '기존 사용자(미기록)')
+             && request.resource.data.createdByRole == resource.data.get('createdByRole', 'unknown'))
+          : (request.resource.data.createdBy == request.auth.uid
+             && request.resource.data.createdByName == degreeActorName()
+             && request.resource.data.createdByRole == degreeActorRole()))
+        && request.resource.data.createdAt is timestamp
+        && (exists(/databases/$(database)/documents/degreeThumbnails/$(memberId))
+          ? request.resource.data.createdAt == resource.data.get('createdAt', resource.data.updatedAt)
+          : request.resource.data.createdAt == request.time)
+        && request.resource.data.image is string
+        && request.resource.data.image.size() <= 280000
+        && request.resource.data.image.matches('^data:image/jpeg;base64,[A-Za-z0-9+/=]+$')
+        && (degreeProfessor() || (
+          exists(/databases/$(database)/documents/degreeSessions/$(request.auth.uid))
+          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.memberId == memberId
+          && get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.classId == request.resource.data.classId
+          && exists(/databases/$(database)/documents/degreeKeys/$(get(/databases/$(database)/documents/degreeSessions/$(request.auth.uid)).data.codeHash))
+        ));
+      allow delete: if degreeProfessor();
     }
