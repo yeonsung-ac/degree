@@ -10,3 +10,5 @@
 .professor-video-title{font-size:18px;margin:40px 0 8px;padding-top:28px;border-top:1px solid var(--line)}
 
 .upload-times{display:flex;flex-direction:column;gap:5px;margin:12px 0 14px;line-height:1.6}.upload-times small{font-size:10px;color:var(--muted)}.upload-times .modified{color:#a45a32;font-weight:600}.upload-times time{font-variant-numeric:tabular-nums;letter-spacing:0}
+
+.identity-status{font-size:11px;color:var(--muted);margin:14px 0 0;line-height:1.8}.identity-status:empty{display:none}.login-help{display:block;border:1px solid var(--line);padding:12px;width:100%;margin:12px 0;background:#fff;font-size:13px}#identity-member,#identity-sid{display:block;width:100%;padding:13px;background:#fff;border:1px solid var(--line);border-radius:3px;font:inherit}#identity-requests{overflow:auto}#identity-requests button{border:1px solid var(--line);border-radius:4px;padding:8px 12px;margin:3px;white-space:nowrap}#identity-requests td{font-size:12px}#identity-requests .mismatch{color:#ac4425}#identity-status{min-height:20px}.header-actions{flex-wrap:wrap;justify-content:flex-end}

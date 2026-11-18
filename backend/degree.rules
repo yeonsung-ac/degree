@@ -76,3 +76,36 @@
         ));
       allow delete: if degreeProfessor();
     }
+
+    // Google-account requests are private until the professor approves a roster match.
+    match /degreeJoinRequests/{requestId} {
+      allow get: if request.auth != null
+        && (degreeProfessor() || requestId.matches('^' + request.auth.uid + '_[a-z0-9-]+$'));
+      allow list: if request.auth != null
+        && (degreeProfessor() || resource.data.uid == request.auth.uid);
+      allow create, update: if degreeProfessor() || (
+        request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.firebase.sign_in_provider == 'google.com'
+        && request.resource.data.keys().hasOnly(['uid','classId','memberId','name','sid','email','status','requestedAt'])
+        && request.resource.data.uid == request.auth.uid
+        && requestId == request.auth.uid + '_' + request.resource.data.classId
+        && request.resource.data.classId is string
+        && request.resource.data.classId.matches('^[a-z0-9-]+$')
+        && request.resource.data.memberId is string
+        && request.resource.data.memberId.size() <= 80
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 60
+        && request.resource.data.sid is string
+        && request.resource.data.sid.matches('^[0-9]{10}$')
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.status == 'pending'
+        && request.resource.data.requestedAt == request.time
+      );
+      allow delete: if degreeProfessor();
+    }
+    match /degreeUserAccess/{ownerId} {
+      allow get: if request.auth != null && (ownerId == request.auth.uid || degreeProfessor());
+      allow list: if degreeProfessor();
+      allow create, update, delete: if degreeProfessor();
+    }
